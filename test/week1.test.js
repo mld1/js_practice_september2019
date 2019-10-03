@@ -17,7 +17,9 @@ describe("capitalize", () => {
     expect(capitalize("the quick fox")).toBe("The quick fox");
     expect(capitalize("oh no, bears!!!")).toBe("Oh no, bears!!!");
   });
-
+  test("throws error if not string", () => {
+    expect(() => { capitalize(289273)}).toThrow(new Error ("word is required"));
+  });
   test("does nothing if the string is already capitalized", () => {
     expect(capitalize("Hello")).toBe("Hello");
   });
@@ -26,6 +28,9 @@ describe("capitalize", () => {
 describe("generateInitials", () => {
   test("returns the initials of a firstname and surname", () => {
     expect(generateInitials("Frederic", "Bonneville")).toBe("F.B");
+  });
+  test("throws error if not string", () => {
+    expect(() => { generateInitials("Frederic", 5664)}).toThrow(new Error ("lastName is required"));
   });
 });
 
@@ -44,6 +49,27 @@ describe("addVAT", () => {
 
   test("adds a VAT of 0% to a price of 25", () => {
     expect(addVAT(25, 0)).toBe(25);
+  });
+
+  test("throws error if originalPrice is not number", () => {
+    expect(() => { addVAT("Hi", 20)}).toThrow(new Error ("originalPrice is required as number"));
+  });
+
+  test("throws error if vatRate is not number", () => {
+    expect(() => { addVAT(20, "Hi")}).toThrow(new Error ("vatRate is required as number"));
+  });
+
+
+  test("throws error if vatRate is more than 100", () => {
+    expect(() => { addVAT(20, 101)}).toThrow(new Error ("vatRate is required as less than 100"));
+  });
+
+  test("throws error if vatRate is less than 0", () => {
+    expect(() => { addVAT(20, -3)}).toThrow(new Error ("vatRate is required as 0 or above"));
+  });
+
+  test("throws error if origionalPrice is less than 0", () => {
+    expect(() => { addVAT(-3, 10)}).toThrow(new Error ("origionalPrice is required as 0 or above"));
   });
 });
 
@@ -65,7 +91,7 @@ describe("getSalePrice", () => {
   });
 });
 
-describe("getMiddleCharacter", () => {
+describe.only("getMiddleCharacter", () => {
   test("returns the middle character from a string of odd length", () => {
     expect(getMiddleCharacter("bears!!!!")).toBe("s");
   });
@@ -73,6 +99,11 @@ describe("getMiddleCharacter", () => {
   test("returns the middle 2 characters from a string of even length", () => {
     expect(getMiddleCharacter("help!!")).toBe("lp");
   });
+
+  test("throws error if str is not string", () => {
+    expect(() => { getMiddleCharacter(20)}).toThrow(new Error ("str is required as string"));
+  });
+
 });
 
 describe("reverseWord", () => {
@@ -85,6 +116,11 @@ describe("reverseWord", () => {
       "?siht od ot tnaw neve uoy dluow yhw"
     );
   });
+
+  test("throws error if str is not string", () => {
+    expect(() => { getMiddleCharacter(20)}).toThrow(new Error ("str is required as string"));
+  });
+
 });
 
 describe("reverseAllWords", () => {

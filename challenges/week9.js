@@ -6,6 +6,13 @@
  */
 const sumMultiples = arr => {
   if (arr === undefined) throw new Error("arr is required");
+  let count = 0;
+  arr.forEach(n => {
+    if (n % 3 === 0 || n % 5 === 0) {
+      count = count + n;
+    }
+  });
+  return count;
 };
 
 /**
@@ -15,6 +22,24 @@ const sumMultiples = arr => {
  */
 const isValidDNA = str => {
   if (str === undefined) throw new Error("str is required");
+  str = str.toLowerCase();
+  let count = 0;
+  for (let i = 0; i < str.length; i++) {
+    if (
+      str[i] === "c" ||
+      str[i] === "g" ||
+      str[i] === "a" ||
+      str[i] === "t" ||
+      str[i] === " "
+    ) {
+      count = count + 1;
+    } else {
+      return false;
+    }
+  }
+  if ((count = str.length - 1)) {
+    return true;
+  }
 };
 
 /**
@@ -24,6 +49,20 @@ const isValidDNA = str => {
  */
 const getComplementaryDNA = str => {
   if (str === undefined) throw new Error("str is required");
+  str.toUpperCase();
+  let DNAPair = "";
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === "C") {
+      DNAPair = DNAPair + "G";
+    } else if (str[i] === "G") {
+      DNAPair = DNAPair + "C";
+    } else if (str[i] === "A") {
+      DNAPair = DNAPair + "T";
+    } else if (str[i] === "T") {
+      DNAPair = DNAPair + "A";
+    }
+  }
+  return DNAPair;
 };
 
 /**
@@ -33,6 +72,10 @@ const getComplementaryDNA = str => {
  */
 const isItPrime = n => {
   if (n === undefined) throw new Error("n is required");
+  for (var i = 2; i < n; i++) {
+    if (n % i === 0) return false;
+    return n > 1;
+  }
 };
 
 /**
@@ -49,6 +92,9 @@ const isItPrime = n => {
 const createMatrix = (n, fill) => {
   if (n === undefined) throw new Error("n is required");
   if (fill === undefined) throw new Error("fill is required");
+  let arr = new Array(n).fill(fill);
+  let arrs = new Array(n).fill(arr);
+  return arrs;
 };
 
 /**
@@ -63,9 +109,26 @@ const createMatrix = (n, fill) => {
  * @param {String} day
  * @returns {Boolean}
  */
+
 const areWeCovered = (staff, day) => {
   if (staff === undefined) throw new Error("staff is required");
   if (day === undefined) throw new Error("day is required");
+
+  let count = 0;
+  for (let i = 0; i < staff.length; i++) {
+    let propNames = Object.values(staff[i].rota);
+    let propNamesLower = propNames.map(function(value) {
+      return value.toLowerCase();
+    });
+    if (propNamesLower.includes(day.toLowerCase())) {
+      count++;
+    }
+  }
+  if (count >= 3) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 module.exports = {

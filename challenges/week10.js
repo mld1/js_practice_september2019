@@ -4,6 +4,7 @@
  */
 const sumDigits = n => {
   if (n === undefined) throw new Error("n is required");
+  return ((n - 1) % 9) + 1;
 };
 
 /**

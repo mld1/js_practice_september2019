@@ -4,7 +4,12 @@
  */
 const sumDigits = n => {
   if (n === undefined) throw new Error("n is required");
-  return ((n - 1) % 9) + 1;
+  let nString = n.toString().split("");
+  let count = 0;
+  nString.forEach(n => {
+    count = count + Number(n);
+  });
+  return count;
 };
 
 /**
@@ -18,6 +23,20 @@ const sumDigits = n => {
 const createRange = (start, end, step) => {
   if (start === undefined) throw new Error("start is required");
   if (end === undefined) throw new Error("end is required");
+  let arr = [];
+  let count = 0;
+  for (let i = start; i <= end; i++) {
+    if (i === start) {
+      arr.push(start);
+      count = start + step;
+    } else if (i !== start && i === count) {
+      arr.push(count);
+      count = count + step;
+    } else if (i === end) {
+      arr.push(end);
+    }
+  }
+  return arr;
 };
 
 /**
@@ -52,6 +71,20 @@ const createRange = (start, end, step) => {
 const getScreentimeAlertList = (users, date) => {
   if (users === undefined) throw new Error("users is required");
   if (date === undefined) throw new Error("date is required");
+  let arr = [];
+  for (let i = 0; i < users.length; i++) {
+    for (let j = 0; j < users[i].screenTime.length; j++) {
+      if (users[i].screenTime[j].date === date) {
+        let count = 0;
+        let userScreenTime = Object.values(users[i].screenTime[j].usage);
+        userScreenTime = userScreenTime.forEach(n => (count = n + count));
+        if (count >= 100) {
+          arr.push(users[i].username);
+        }
+      }
+    }
+  }
+  return arr;
 };
 
 /**
@@ -65,7 +98,19 @@ const getScreentimeAlertList = (users, date) => {
  * @param {String} str
  */
 const hexToRGB = hexStr => {
-  if (hexStr === undefined) throw new Error("hexStr is required");
+  hexStr = hexStr.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexStr);
+  let resultObject = result
+    ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      }
+    : null;
+  if (resultObject !== null) {
+    resultObject = "rgb(" + Object.values(resultObject) + ")";
+  }
+  return resultObject;
 };
 
 /**
@@ -80,6 +125,25 @@ const hexToRGB = hexStr => {
  */
 const findWinner = board => {
   if (board === undefined) throw new Error("board is required");
+  if (board[0].every((val, i, arr) => val === arr[0])) {
+    return board[0][0];
+  } else if (board[1].every((val, i, arr) => val === arr[0])) {
+    return board[1][0];
+  } else if (board[2].every((val, i, arr) => val === arr[0])) {
+    return board[2][0];
+  } else if (board[0][0] === board[1][0] && board[2][0] === board[1][0]) {
+    return board[0][0];
+  } else if (board[0][1] === board[1][1] && board[2][1] === board[1][1]) {
+    return board[0][1];
+  } else if (board[0][2] === board[1][2] && board[2][2] === board[1][2]) {
+    return board[0][2];
+  } else if (board[0][0] === board[1][1] && board[2][2] === board[1][1]) {
+    return board[0][0];
+  } else if (board[0][2] === board[1][1] && board[2][0] === board[1][0]) {
+    return board[0][2];
+  } else {
+    return null;
+  }
 };
 
 module.exports = {
